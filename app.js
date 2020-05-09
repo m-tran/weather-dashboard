@@ -5,6 +5,7 @@ $(document).ready(function () {
     var $weatherIcon = $("#weatherIcon");
     var $weatherStats = $("#weatherStats");
     var $fiveDayForecast = $("#fiveDayForecast");
+    var $previousLocations = $("#previousLocations");
 
     //openweather
     var apiKey = "c64d3ff6b9a9c58c72a6b260cf9dc8e7";
@@ -13,7 +14,10 @@ $(document).ready(function () {
     //clima cell
     var apiKeyClima = "zWW09Dnm2gH8BZmajzjhuxznR1V2CtGu";
 
-    var searchCity = "San Francisco";
+    var defaultCity = "San Francisco";
+
+    var searchCity;
+    var prevCity;
     var lat;
     var lon;
 
@@ -34,18 +38,47 @@ $(document).ready(function () {
     var fiveDayTemp = [];
     var fiveDayHumidity = [];
 
-    getCurrentWeather(searchCity);
-    $currentCity.html(`<h1>${searchCity}</h1>`)
+    var pastSearch = [];
 
+    getCurrentWeather(defaultCity);
+    $currentCity.html(`<h1>${defaultCity}</h1>`)
 
     //get current location
     $("input").on("keydown", function search(e) {
         if (e.keyCode == 13) {
             e.preventDefault();
+
+            if (pastSearch.length <= 5 && pastSearch.length > 0) {
+                pastSearch.shift();
+                pastSearch.push(searchCity);
+                $previousLocations.html("");
+                for (let i=0; i < pastSearch.length; i++) {
+                    $previousLocations.prepend(`<p class="past" data-id=${i}>${pastSearch[i]}</p>`);
+                }
+            } else if (pastSearch.length > 5) {
+                pastSearch.shift();
+                pastSearch.push(searchCity);
+                $previousLocations.html("");
+                for (let i=0; i < pastSearch.length; i++) {
+                    $previousLocations.prepend(`<p>${pastSearch[i]}</p>`);
+                }
+            } else {
+                $previousLocations.html("");
+                pastSearch.push(searchCity);
+            };
+
             searchCity = $(this).val();
-            $currentCity.html(`<h1>${searchCity}</h1>`)
+            $currentCity.html(`<h1>${searchCity}</h1>`);
+            console.log(pastSearch);
+
             getCurrentWeather(searchCity);
         }
+    });
+
+    $(document).on("click", ".past", function() {
+        console.log($(this).text());
+        getCurrentWeather($(this).text());
+        $currentCity.html(`<h1>${$(this).text()}</h1>`)
     });
 
     //get current weather
@@ -65,7 +98,7 @@ $(document).ready(function () {
             lon = res.coord.lon;
             getUV(city);
             currentTemp(dayTemp);
-            getHourly(city);
+            //getHourly(city);
             getForecast(city);
         });
     }
@@ -171,7 +204,7 @@ $(document).ready(function () {
         $currentDate.html(`<p>${moment().format("dddd, MMMM Do")}</p><p>${moment().format("h:m A")}</p>`);
         $currentTemp.html(`<h1>${dayTemp}\u00B0F</h1><p>${description}</p>`);
         $weatherIcon.html(`<img src="http://openweathermap.org/img/wn/${currentIcon}@2x.png" alt="weather icon">`);
-        $weatherStats.html(`<p>Humidity: ${humidity}</p><p>Wind Speed: ${windSpeed}</p><p>UV Index: ${uv}</p>`);
+        $weatherStats.html(`<p>Humidity: ${humidity}%</p><p>Wind Speed: ${windSpeed} mph</p><p>UV Index: ${uv}</p>`);
 
         $fiveDayForecast.html("");
 
@@ -181,8 +214,8 @@ $(document).ready(function () {
                     <div class="card-body">
                         <p>${moment(fiveDayDate[i]).format("dddd")}</p>
                         <img src="http://openweathermap.org/img/wn/${fiveDayIcon[i]}@2x.png" alt="weather icon">
-                        <h1>${fiveDayTemp[i]}</h1>
-                        <p>Humidity: ${fiveDayHumidity[i]}</p>
+                        <h1>${fiveDayTemp[i]}\u00B0F</h1>
+                        <p>Humidity: ${fiveDayHumidity[i]}%</p>
                     </div>
                 </div>
             `)
