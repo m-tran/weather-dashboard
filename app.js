@@ -204,7 +204,17 @@ $(document).ready(function () {
         $currentDate.html(`<p>${moment().format("dddd, MMMM Do")}</p><p>${moment().format("h:m A")}</p>`);
         $currentTemp.html(`<h1>${dayTemp}\u00B0F</h1><p>${description}</p>`);
         $weatherIcon.html(`<img src="http://openweathermap.org/img/wn/${currentIcon}@2x.png" alt="weather icon">`);
-        $weatherStats.html(`<p>Humidity: ${humidity}%</p><p>Wind Speed: ${windSpeed} mph</p><p>UV Index: ${uv}</p>`);
+
+        var uvConditions;
+        if (uv > 5) {
+            uvConditions = `<p>UV Index: <span class="red">&nbsp${uv}&nbsp</span></p>`;
+        } else if (uv <=5 && uv >=3) {
+            uvConditions = `<p>UV Index: <span class="yellow">&nbsp${uv}&nbsp</span></p>`;
+        } else {
+            uvConditions = `<p>UV Index: <span class="green">&nbsp${uv}&nbsp</span></p>`;
+        };
+
+        $weatherStats.html(`<p>Humidity: ${humidity}%</p><p>Wind Speed: ${windSpeed} mph</p>${uvConditions}`);
 
         $fiveDayForecast.html("");
 
