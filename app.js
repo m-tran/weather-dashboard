@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     var hourly = [];
     var hourlyTemp = [];
-    
+
     var fiveDay = [];
     var fiveDayIcon = [];
     var fiveDayDate = [];
@@ -35,8 +35,8 @@ $(document).ready(function () {
     var fiveDayHumidity = [];
 
     //get current location
-    $("input").on("keydown",function search(e) {
-        if(e.keyCode == 13) {
+    $("input").on("keydown", function search(e) {
+        if (e.keyCode == 13) {
             e.preventDefault();
             searchCity = $(this).val();
             $currentCity.html(`<h1>${searchCity}</h1>`)
@@ -62,7 +62,7 @@ $(document).ready(function () {
             getUV(city);
             currentTemp(dayTemp);
             getHourly(city);
-            getForecast(city);   
+            getForecast(city);
         });
     }
 
@@ -71,7 +71,7 @@ $(document).ready(function () {
         $.ajax({
             type: "GET",
             url: `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`,
-        }).then(function (res){
+        }).then(function (res) {
             uv = res.value;
         });
     }
@@ -84,12 +84,32 @@ $(document).ready(function () {
         }).then(function (res) {
             console.log(res);
             console.log(moment(res[0].observation_time.value).format("hh A"));
-            for (let i=0; i < 24; i=i+2) {
+            for (let i = 0; i < 24; i = i + 2) {
                 hourly.push(moment(res[i].observation_time.value).format("hh A"));
-                hourlyTemp.push(res[i].temp.value);
+                hourlyTemp.push(convertToF(res[i].temp.value));
             }
             console.log(hourly);
             console.log(hourlyTemp);
+
+            var ctx = $("#hourlyChart");
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'bar',
+
+                // The data for our dataset
+                data: {
+                    labels: hourly,
+                    datasets: [{
+                        label: '',
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: hourlyTemp
+                    }]
+                },
+
+                // Configuration options go here
+                options: {}
+            });
         });
     }
 
@@ -100,7 +120,7 @@ $(document).ready(function () {
             url: `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`,
             data: "json",
         }).then(function (res) {
-            for (let i=0; i < res.list.length; i++) {
+            for (let i = 0; i < res.list.length; i++) {
                 if (res.list[i].dt_txt.includes("12:00:00")) {
                     fiveDay.push(res.list[i]);
                     fiveDayDate.push(res.list[i].dt_txt);
@@ -109,7 +129,7 @@ $(document).ready(function () {
                     fiveDayTemp.push(currentTemp(res.list[i].main.feels_like));
                 };
             }
-            renderWeather();   
+            renderWeather();
         });
     }
 
@@ -131,6 +151,12 @@ $(document).ready(function () {
         return temp;
     }
 
+    // convert C to F
+    function convertToF(temp) {
+        temp = temp * 9/5 + 32
+        return temp;
+    }
+
     //render current weather
     function renderWeather() {
         $currentDate.html(`<p>${moment().format("dddd, MMMM Do")}</p><p>${moment().format("h:m A")}</p>`);
@@ -140,7 +166,7 @@ $(document).ready(function () {
 
         console.log(fiveDayHumidity);
 
-        for (let i=0; i < fiveDay.length; i++) {
+        for (let i = 0; i < fiveDay.length; i++) {
             $fiveDayForecast.append(`
                 <div class="card">
                     <div class="card-body">
@@ -154,3 +180,4 @@ $(document).ready(function () {
         }
     }
 });
+
