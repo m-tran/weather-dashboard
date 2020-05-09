@@ -13,7 +13,7 @@ $(document).ready(function () {
     //clima cell
     var apiKeyClima = "zWW09Dnm2gH8BZmajzjhuxznR1V2CtGu";
 
-    var searchCity;
+    var searchCity = "San Francisco";
     var lat;
     var lon;
 
@@ -33,6 +33,10 @@ $(document).ready(function () {
     var fiveDayDate = [];
     var fiveDayTemp = [];
     var fiveDayHumidity = [];
+
+    getCurrentWeather(searchCity);
+    $currentCity.html(`<h1>${searchCity}</h1>`)
+
 
     //get current location
     $("input").on("keydown", function search(e) {
@@ -120,6 +124,11 @@ $(document).ready(function () {
             url: `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`,
             data: "json",
         }).then(function (res) {
+            fiveDay = [];
+            fiveDayDate = [];
+            fiveDayHumidity = [];
+            fiveDayIcon = [];
+            fiveDayTemp = [];
             for (let i = 0; i < res.list.length; i++) {
                 if (res.list[i].dt_txt.includes("12:00:00")) {
                     fiveDay.push(res.list[i]);
@@ -164,7 +173,7 @@ $(document).ready(function () {
         $weatherIcon.html(`<img src="http://openweathermap.org/img/wn/${currentIcon}@2x.png" alt="weather icon">`);
         $weatherStats.html(`<p>Humidity: ${humidity}</p><p>Wind Speed: ${windSpeed}</p><p>UV Index: ${uv}</p>`);
 
-        console.log(fiveDayHumidity);
+        $fiveDayForecast.html("");
 
         for (let i = 0; i < fiveDay.length; i++) {
             $fiveDayForecast.append(`
