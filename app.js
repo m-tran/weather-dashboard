@@ -6,7 +6,12 @@ $(document).ready(function () {
     var $weatherStats = $("#weatherStats");
     var $fiveDayForecast = $("#fiveDayForecast");
 
+    //openweather
     var apiKey = "c64d3ff6b9a9c58c72a6b260cf9dc8e7";
+    //weather bit
+    var apiKeyWeather = "8ceee45a95b44ea2b66af380009622a6";
+    //clima cell
+    var apiKeyClima = "zWW09Dnm2gH8BZmajzjhuxznR1V2CtGu";
 
     var searchCity;
     var lat;
@@ -21,6 +26,7 @@ $(document).ready(function () {
     var humidity;
 
     var hourly = [];
+    var hourlyTemp = [];
     
     var fiveDay = [];
     var fiveDayIcon = [];
@@ -55,6 +61,7 @@ $(document).ready(function () {
             lon = res.coord.lon;
             getUV(city);
             currentTemp(dayTemp);
+            getHourly(city);
             getForecast(city);   
         });
     }
@@ -70,6 +77,21 @@ $(document).ready(function () {
     }
 
     //get hourly forecast
+    function getHourly(city) {
+        $.ajax({
+            type: "GET",
+            url: `https://api.climacell.co/v3/weather/forecast/hourly?lat=${lat}&lon=${lon}&unit_system=si&start_time=now&fields=temp&apikey=${apiKeyClima}`,
+        }).then(function (res) {
+            console.log(res);
+            console.log(moment(res[0].observation_time.value).format("hh A"));
+            for (let i=0; i < 24; i=i+2) {
+                hourly.push(moment(res[i].observation_time.value).format("hh A"));
+                hourlyTemp.push(res[i].temp.value);
+            }
+            console.log(hourly);
+            console.log(hourlyTemp);
+        });
+    }
 
     //get 5-day forecast
     function getForecast(city) {
@@ -122,7 +144,7 @@ $(document).ready(function () {
             $fiveDayForecast.append(`
                 <div class="card">
                     <div class="card-body">
-                        <p>${fiveDayDate[i]}</p>
+                        <p>${moment(fiveDayDate[i]).format("dddd")}</p>
                         <img src="http://openweathermap.org/img/wn/${fiveDayIcon[i]}@2x.png" alt="weather icon">
                         <h1>${fiveDayTemp[i]}</h1>
                         <p>Humidity: ${fiveDayHumidity[i]}</p>
