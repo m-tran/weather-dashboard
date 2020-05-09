@@ -12,9 +12,6 @@ $(document).ready(function () {
     var hourly = [];
     var sevenDay = [];
     var sevenDayIcon = [];
-    var date;
-
-    //get today's date
 
     //get current location
     $("input").on("keydown",function search(e) {
@@ -60,6 +57,7 @@ $(document).ready(function () {
 
     //render current weather
     function renderWeather() {
+        $currentDate.html(`<p>${moment().format("dddd, MMMM Do")}</p><p>${moment().format("h:m A")}</p>`);
         $currentTemp.html(`<h1>${temp}\u00B0F</h1><p>${description}</p>`);
         $weatherIcon.html(`<img src="http://openweathermap.org/img/wn/${currentIcon}@2x.png" alt="weather icon">`);
     }
