@@ -6,10 +6,17 @@ $(document).ready(function () {
     var $weatherStats = $("#weatherStats");
 
     var searchCity;
+
     var temp;
     var currentIcon;
     var description;
+    var windSpeed;
+    var uv;
+    var precipitation;
+    var humidity;
+
     var hourly = [];
+    
     var sevenDay = [];
     var sevenDayIcon = [];
 
@@ -33,6 +40,9 @@ $(document).ready(function () {
             temp = res.main.feels_like;
             currentIcon = res.weather[0].icon;
             description = res.weather[0].description;
+            windSpeed = res.wind.speed;
+            humidity = res.main.humidity;
+            console.log(humidity);
             currentTemp(temp);
         });
     }
