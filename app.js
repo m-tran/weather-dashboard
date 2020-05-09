@@ -5,7 +5,11 @@ $(document).ready(function () {
     var $weatherIcon = $("#weatherIcon");
     var $weatherStats = $("#weatherStats");
 
+    var apiKey = "c64d3ff6b9a9c58c72a6b260cf9dc8e7";
+
     var searchCity;
+    var lat;
+    var lon;
 
     var temp;
     var currentIcon;
@@ -33,7 +37,7 @@ $(document).ready(function () {
     function getCurrentWeather(city) {
         $.ajax({
             type: "GET",
-            url: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=c64d3ff6b9a9c58c72a6b260cf9dc8e7`,
+            url: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`,
             data: 'json',
         }).then(function (res) {
             console.log(res);
@@ -42,8 +46,21 @@ $(document).ready(function () {
             description = res.weather[0].description;
             windSpeed = res.wind.speed;
             humidity = res.main.humidity;
+            lat = res.coord.lat;
+            lon = res.coord.lon;
             console.log(humidity);
             currentTemp(temp);
+            getUV(city);
+        });
+    }
+
+    //get UV
+    function getUV(city) {
+        $.ajax({
+            type: "GET",
+            url: `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`,
+        }).then(function (res){
+            uv = res.value;
         });
     }
 
