@@ -14,9 +14,9 @@ $(document).ready(function () {
     var temp;
     var currentIcon;
     var description;
+
     var windSpeed;
     var uv;
-    var precipitation;
     var humidity;
 
     var hourly = [];
@@ -87,5 +87,6 @@ $(document).ready(function () {
         $currentDate.html(`<p>${moment().format("dddd, MMMM Do")}</p><p>${moment().format("h:m A")}</p>`);
         $currentTemp.html(`<h1>${temp}\u00B0F</h1><p>${description}</p>`);
         $weatherIcon.html(`<img src="http://openweathermap.org/img/wn/${currentIcon}@2x.png" alt="weather icon">`);
+        $weatherStats.html(`<p>Humidity: ${humidity}</p><p>Wind Speed: ${windSpeed}</p><p>UV Index: ${uv}</p>`);
     }
 });
