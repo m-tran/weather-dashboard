@@ -41,7 +41,7 @@ $(document).ready(function () {
     var pastSearch = [];
 
     getCurrentWeather(defaultCity);
-    $currentCity.html(`<h1>${defaultCity}</h1>`)
+    $currentCity.html(`<h2>${defaultCity}</h2>`)
 
     //get current location
     $("input").on("keydown", function search(e) {
@@ -68,7 +68,7 @@ $(document).ready(function () {
             };
 
             searchCity = $(this).val();
-            $currentCity.html(`<h1>${searchCity}</h1>`);
+            $currentCity.html(`<h2>${searchCity}</h2>`);
             console.log(pastSearch);
 
             getCurrentWeather(searchCity);
@@ -78,7 +78,7 @@ $(document).ready(function () {
     $(document).on("click", ".past", function() {
         console.log($(this).text());
         getCurrentWeather($(this).text());
-        $currentCity.html(`<h1>${$(this).text()}</h1>`)
+        $currentCity.html(`<h2>${$(this).text()}</h2>`)
     });
 
     //get current weather
