@@ -4,6 +4,7 @@ $(document).ready(function () {
     var $currentCity = $("#currentCity");
     var $weatherIcon = $("#weatherIcon");
     var $weatherStats = $("#weatherStats");
+    var $fiveDayForecast = $("#fiveDayForecast");
 
     var apiKey = "c64d3ff6b9a9c58c72a6b260cf9dc8e7";
 
@@ -11,7 +12,7 @@ $(document).ready(function () {
     var lat;
     var lon;
 
-    var temp;
+    var dayTemp;
     var currentIcon;
     var description;
 
@@ -34,7 +35,6 @@ $(document).ready(function () {
             searchCity = $(this).val();
             $currentCity.html(`<h1>${searchCity}</h1>`)
             getCurrentWeather(searchCity);
-            getForecast(searchCity);
         }
     });
 
@@ -46,15 +46,16 @@ $(document).ready(function () {
             data: 'json',
         }).then(function (res) {
             console.log(res);
-            temp = res.main.feels_like;
+            dayTemp = res.main.feels_like;
             currentIcon = res.weather[0].icon;
             description = res.weather[0].description;
             windSpeed = res.wind.speed;
             humidity = res.main.humidity;
             lat = res.coord.lat;
             lon = res.coord.lon;
-            currentTemp(temp);
             getUV(city);
+            currentTemp(dayTemp);
+            getForecast(city);   
         });
     }
 
@@ -68,7 +69,9 @@ $(document).ready(function () {
         });
     }
 
-    //get 7-day forecast
+    //get hourly forecast
+
+    //get 5-day forecast
     function getForecast(city) {
         $.ajax({
             type: "GET",
@@ -78,16 +81,20 @@ $(document).ready(function () {
             for (let i=0; i < res.list.length; i++) {
                 if (res.list[i].dt_txt.includes("12:00:00")) {
                     fiveDay.push(res.list[i]);
+                    fiveDayDate.push(res.list[i].dt_txt);
+                    fiveDayHumidity.push(res.list[i].main.humidity);
+                    fiveDayIcon.push(res.list[i].weather[0].icon.replace("n", "d"));
+                    fiveDayTemp.push(currentTemp(res.list[i].main.feels_like));
                 };
-            } 
-            console.log(fiveDay); 
+            }
+            renderWeather();   
         });
     }
 
     //init current temp
     function currentTemp(temp) {
         temp = Math.floor(convertFahrenheit(temp));
-        renderWeather();
+        return temp;
     }
 
     //convert to F
@@ -105,8 +112,23 @@ $(document).ready(function () {
     //render current weather
     function renderWeather() {
         $currentDate.html(`<p>${moment().format("dddd, MMMM Do")}</p><p>${moment().format("h:m A")}</p>`);
-        $currentTemp.html(`<h1>${temp}\u00B0F</h1><p>${description}</p>`);
+        $currentTemp.html(`<h1>${dayTemp}\u00B0F</h1><p>${description}</p>`);
         $weatherIcon.html(`<img src="http://openweathermap.org/img/wn/${currentIcon}@2x.png" alt="weather icon">`);
         $weatherStats.html(`<p>Humidity: ${humidity}</p><p>Wind Speed: ${windSpeed}</p><p>UV Index: ${uv}</p>`);
+
+        console.log(fiveDayHumidity);
+
+        for (let i=0; i < fiveDay.length; i++) {
+            $fiveDayForecast.append(`
+                <div class="card">
+                    <div class="card-body">
+                        <p>${fiveDayDate[i]}</p>
+                        <img src="http://openweathermap.org/img/wn/${fiveDayIcon[i]}@2x.png" alt="weather icon">
+                        <h1>${fiveDayTemp[i]}</h1>
+                        <p>Humidity: ${fiveDayHumidity[i]}</p>
+                    </div>
+                </div>
+            `)
+        }
     }
 });
