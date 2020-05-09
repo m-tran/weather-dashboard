@@ -21,8 +21,11 @@ $(document).ready(function () {
 
     var hourly = [];
     
-    var sevenDay = [];
-    var sevenDayIcon = [];
+    var fiveDay = [];
+    var fiveDayIcon = [];
+    var fiveDayDate = [];
+    var fiveDayTemp = [];
+    var fiveDayHumidity = [];
 
     //get current location
     $("input").on("keydown",function search(e) {
@@ -31,9 +34,11 @@ $(document).ready(function () {
             searchCity = $(this).val();
             $currentCity.html(`<h1>${searchCity}</h1>`)
             getCurrentWeather(searchCity);
+            getForecast(searchCity);
         }
     });
 
+    //get current weather
     function getCurrentWeather(city) {
         $.ajax({
             type: "GET",
@@ -48,19 +53,34 @@ $(document).ready(function () {
             humidity = res.main.humidity;
             lat = res.coord.lat;
             lon = res.coord.lon;
-            console.log(humidity);
             currentTemp(temp);
             getUV(city);
         });
     }
 
-    //get UV
+    //get current UV
     function getUV(city) {
         $.ajax({
             type: "GET",
             url: `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`,
         }).then(function (res){
             uv = res.value;
+        });
+    }
+
+    //get 7-day forecast
+    function getForecast(city) {
+        $.ajax({
+            type: "GET",
+            url: `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`,
+            data: "json",
+        }).then(function (res) {
+            for (let i=0; i < res.list.length; i++) {
+                if (res.list[i].dt_txt.includes("12:00:00")) {
+                    fiveDay.push(res.list[i]);
+                };
+            } 
+            console.log(fiveDay); 
         });
     }
 
