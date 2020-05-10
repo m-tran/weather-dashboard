@@ -101,7 +101,7 @@ $(document).ready(function () {
             lon = res.coord.lon;
             getUV(city);
             currentTemp(dayTemp);
-            //getHourly(city);
+            getHourly(city);
             getForecast(city);
         });
     }
@@ -126,29 +126,80 @@ $(document).ready(function () {
             console.log(moment(res[0].observation_time.value).format("hh A"));
             for (let i = 0; i < 24; i = i + 2) {
                 hourly.push(moment(res[i].observation_time.value).format("hh A"));
-                hourlyTemp.push(convertToF(res[i].temp.value));
+                hourlyTemp.push(Math.floor(convertToF(res[i].temp.value)));
             }
             console.log(hourly);
             console.log(hourlyTemp);
 
             var ctx = $("#hourlyChart");
+
+            var plugin = [ChartDataLabels];
+
             var chart = new Chart(ctx, {
                 // The type of chart we want to create
                 type: 'bar',
+                plugins: [ChartDataLabels],
 
                 // The data for our dataset
                 data: {
                     labels: hourly,
                     datasets: [{
-                        label: '',
-                        backgroundColor: 'rgb(255, 99, 132)',
-                        borderColor: 'rgb(255, 99, 132)',
-                        data: hourlyTemp
+                        label: 'Temperature',
+                        backgroundColor: 'rgb(255, 240, 164)',
+                        borderColor: 'rgb(255,184,0)',
+                        borderWidth: 2,
+                        data: hourlyTemp,
+                        barThickness: "25px",
+                        borderSkipped: false,
                     }]
                 },
 
                 // Configuration options go here
-                options: {}
+                options: {
+                    legend: {
+                        position: 'top',
+                        align: 'start',
+                        labels: {
+                            boxWidth: 0,
+                        }
+                    },
+                    tooltips: {
+                        enabled: false
+                    },
+                    plugins: {
+                        datalabels: {
+                            align: 'end',
+                            anchor: 'end',        
+                            backgroundColor: '#ffffff',
+                            borderRadius: 4,
+                            color: '#a3a3a3',
+                            formatter: Math.round
+                        }
+                    },
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+                    
+                    scales: {
+                        xAxes: [{
+                            gridLines: {
+                                display:false,
+                                drawBorder: false,
+                            },
+                            barPercentage: 0.4
+                        }],
+                        yAxes: [{
+                            gridLines: {
+                                display:false,
+                                drawBorder: false,
+                            },
+                            ticks: {
+                                display: false,
+                                suggestedMin: 20, 
+                            }  
+                        }]
+                    }
+                }
             });
         });
     }

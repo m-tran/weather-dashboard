@@ -63,6 +63,10 @@ nav {
     padding-left: 0;
 }
 
+#vertical-line {
+    border-right: 1px solid #E5E5E5;
+}
+
 .card-body {
     padding-bottom: 0;
 }
@@ -73,4 +77,8 @@ nav {
 
 .week-forecast {
     justify-content: space-between;
+}
+
+.hourly {
+    max-height: 350px;
 }

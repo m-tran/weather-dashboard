@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="card col-sm-3">
+            <div class="card col-sm-3" id="vertical-line">
                 <div class="card-body">
                     <div class="date" id="currentDate"></div>
                     <div class="row">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hourly col-sm-9">
+            <div class="hourly col-sm-8">
                 <canvas id="hourlyChart"></canvas>
             </div>
         </div>
@@ -54,6 +54,8 @@
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0">
+        import ChartDataLabels from 'chartjs-plugin-datalabels';</script>
     <script src="app.js"></script>
 </body>
 
