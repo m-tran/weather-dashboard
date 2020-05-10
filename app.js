@@ -144,7 +144,7 @@ $(document).ready(function () {
                 data: {
                     labels: hourly,
                     datasets: [{
-                        label: 'Temperature\u00B0F',
+                        label: 'Temperature \u00B0F',
                         backgroundColor: 'rgb(255, 240, 164)',
                         borderColor: 'rgb(255,184,0)',
                         borderWidth: 2,
