@@ -81,4 +81,5 @@ nav {
 
 .hourly, #hourlyChart {
     max-height: 55vh;
+    height: 55vh;
 }
