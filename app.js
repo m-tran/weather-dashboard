@@ -256,7 +256,7 @@ $(document).ready(function () {
     //render current weather
     function renderWeather() {
         $currentDate.html(`<p>${moment().format("dddd, MMMM Do")} <br> <b>${moment().format("h:mm A")}</b></p>`);
-        $currentTemp.html(`<h1>${currentTemp(dayTemp)}\u00B0F</h1><p>${description}</p>`);
+        $currentTemp.html(`<h1><b>${currentTemp(dayTemp)}\u00B0F</b></h1><p>${description}</p>`);
         $weatherIcon.html(`<img src="http://openweathermap.org/img/wn/${currentIcon}@2x.png" alt="weather icon">`);
 
         var uvConditions;
