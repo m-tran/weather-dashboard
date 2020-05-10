@@ -128,8 +128,8 @@ $(document).ready(function () {
                 hourly.push(moment(res[i].observation_time.value).format("hh A"));
                 hourlyTemp.push(Math.floor(convertToF(res[i].temp.value)));
             }
-            console.log(hourly);
-            console.log(hourlyTemp);
+            hourly = [];
+            hourlyTemp = [];
 
             var ctx = $("#hourlyChart");
 
