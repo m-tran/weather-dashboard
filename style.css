@@ -83,7 +83,7 @@ nav {
     height: 45vh;
 }
 
-@media only screen and (min-device-width: 1024px) {
+@media only screen and (min-device-width: 1280px) {
     .hourly, #hourlyChart {
         height: 55vh;
     }
