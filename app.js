@@ -48,30 +48,33 @@ $(document).ready(function () {
         if (e.keyCode == 13) {
             e.preventDefault();
 
-            if (pastSearch.length <= 5 && pastSearch.length > 0) {
-                pastSearch.shift();
-                pastSearch.push(searchCity);
+            searchCity = $(this).val();
+            $currentCity.html(`<h2>${searchCity}</h2>`);
+
+            if (pastSearch.length <= 4 && pastSearch.length > 0) {
+                console.log(pastSearch);
+                console.log(pastSearch);
+                console.log("run");
                 $previousLocations.html("");
                 for (let i=0; i < pastSearch.length; i++) {
-                    $previousLocations.prepend(`<p class="past" data-id=${i}>${pastSearch[i]}</p>`);
+                    $previousLocations.prepend(`<p class="past">${pastSearch[i]}</p>`);
                 }
-            } else if (pastSearch.length > 5) {
+                pastSearch.push(searchCity);
+            } else if (pastSearch.length > 4) {
                 pastSearch.shift();
                 pastSearch.push(searchCity);
                 $previousLocations.html("");
                 for (let i=0; i < pastSearch.length; i++) {
-                    $previousLocations.prepend(`<p>${pastSearch[i]}</p>`);
+                    $previousLocations.prepend(`<p class="past">${pastSearch[i]}</p>`);
                 }
             } else {
                 $previousLocations.html("");
                 pastSearch.push(searchCity);
             };
 
-            searchCity = $(this).val();
-            $currentCity.html(`<h2>${searchCity}</h2>`);
-            console.log(pastSearch);
-
             getCurrentWeather(searchCity);
+
+            $('input').val('');
         }
     });
 

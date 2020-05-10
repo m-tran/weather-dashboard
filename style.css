@@ -11,12 +11,40 @@ h2 {
     font-weight: 700;
 }
 
+p {
+    font-size: 16px;
+}
+
+#currentCity {
+    padding-top: 2.5px;
+}
+
+.previous-locations {
+    padding-top: 7px;
+    padding-left: 50px;
+}
+
+.previous-locations p {
+    padding-right: 30px;
+    
+}
+
+.past {
+    padding-left: 10px;
+    color: #E5E5E5;
+}
+
+.col-sm-2 {
+    padding-left: 0px;
+}
+
 nav {
     margin: 30px;
 }
 
 .container {
     margin: 30px;
+    max-width: 100vw;
 }
 
 .red {
