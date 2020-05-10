@@ -14,7 +14,14 @@ $(document).ready(function () {
     //clima cell
     var apiKeyClima = "zWW09Dnm2gH8BZmajzjhuxznR1V2CtGu";
 
-    var defaultCity = "San Francisco";
+    var defaultCity; 
+
+    if (JSON.parse(localStorage.getItem("previous")) === null) {
+        defaultCity = "San Francisco";
+    } else {
+        defaultCity = JSON.parse(localStorage.getItem("previous"))[JSON.parse(localStorage.getItem("previous")).length - 1];
+    }
+    
 
     var searchCity;
     var prevCity;
@@ -52,17 +59,16 @@ $(document).ready(function () {
             $currentCity.html(`<h2>${searchCity}</h2>`);
 
             if (pastSearch.length <= 4 && pastSearch.length > 0) {
-                console.log(pastSearch);
-                console.log(pastSearch);
-                console.log("run");
                 $previousLocations.html("");
                 for (let i=0; i < pastSearch.length; i++) {
                     $previousLocations.prepend(`<p class="past"><b>${pastSearch[i]}</b></p>`);
                 }
                 pastSearch.push(searchCity);
+                localStorage.setItem("previous", JSON.stringify(pastSearch));
             } else if (pastSearch.length > 4) {
                 pastSearch.shift();
                 pastSearch.push(searchCity);
+                localStorage.setItem("previous", JSON.stringify(pastSearch));
                 $previousLocations.html("");
                 for (let i=0; i < pastSearch.length; i++) {
                     $previousLocations.prepend(`<p class="past"><b>${pastSearch[i]}</b></p>`);
@@ -70,6 +76,7 @@ $(document).ready(function () {
             } else {
                 $previousLocations.html("");
                 pastSearch.push(searchCity);
+                localStorage.setItem("previous", JSON.stringify(pastSearch));
             };
 
             getCurrentWeather(searchCity);
