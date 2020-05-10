@@ -91,7 +91,7 @@ $(document).ready(function () {
             url: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`,
             data: 'json',
         }).then(function (res) {
-            console.log(res);
+            
             dayTemp = res.main.feels_like;
             currentIcon = res.weather[0].icon;
             description = res.weather[0].description;
@@ -256,7 +256,7 @@ $(document).ready(function () {
     //render current weather
     function renderWeather() {
         $currentDate.html(`<p>${moment().format("dddd, MMMM Do")} <br> <b>${moment().format("h:mm A")}</b></p>`);
-        $currentTemp.html(`<h1>${dayTemp}\u00B0F</h1><p>${description}</p>`);
+        $currentTemp.html(`<h1>${currentTemp(dayTemp)}\u00B0F</h1><p>${description}</p>`);
         $weatherIcon.html(`<img src="http://openweathermap.org/img/wn/${currentIcon}@2x.png" alt="weather icon">`);
 
         var uvConditions;
