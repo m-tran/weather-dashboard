@@ -217,7 +217,7 @@ $(document).ready(function () {
             uvConditions = `<p>UV Index &nbsp|&nbsp  <span class="green">&nbsp<b>${uv}</b>&nbsp</span></p>`;
         };
 
-        $weatherStats.html(`<p>Humidity &nbsp|&nbsp  <b>${humidity}</b>%</p><p>Wind Speed &nbsp|&nbsp  <b>${windSpeed}</b> mph</p>${uvConditions}`);
+        $weatherStats.html(`<p>Humidity &nbsp|&nbsp  <b>${humidity}%</b></p><p>Wind Speed &nbsp|&nbsp  <b>${windSpeed}</b> mph</p>${uvConditions}`);
 
         $fiveDayForecast.html("");
 
@@ -228,7 +228,7 @@ $(document).ready(function () {
                         <p>${moment(fiveDayDate[i]).format("dddd")}</p>
                         <img src="http://openweathermap.org/img/wn/${fiveDayIcon[i]}@2x.png" alt="weather icon">
                         <h1>${fiveDayTemp[i]}\u00B0F</h1>
-                        <p>Humidity: ${fiveDayHumidity[i]}%</p>
+                        <p>Humidity &nbsp|&nbsp <b>${fiveDayHumidity[i]}%</b></p>
                     </div>
                 </div>
             `)

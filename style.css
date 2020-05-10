@@ -34,10 +34,6 @@ p {
     color: #E5E5E5;
 }
 
-.col-sm-2, .col-sm-3 {
-    padding-left: 0px;
-}
-
 nav {
     margin: 15px 30px 30px 30px;
 }
@@ -45,6 +41,8 @@ nav {
 .container {
     margin: 30px;
     max-width: 95vw;
+    padding: 0;
+    margin-bottom: 0;
 }
 
 .red {
@@ -62,6 +60,11 @@ nav {
 
 .card {
     border: none;
+    padding-left: 0;
+}
+
+.card-body {
+    padding-bottom: 0;
 }
 
 #weatherStats {
