@@ -34,17 +34,17 @@ p {
     color: #E5E5E5;
 }
 
-.col-sm-2 {
+.col-sm-2, .col-sm-3 {
     padding-left: 0px;
 }
 
 nav {
-    margin: 30px;
+    margin: 15px 30px 30px 30px;
 }
 
 .container {
     margin: 30px;
-    max-width: 100vw;
+    max-width: 95vw;
 }
 
 .red {
@@ -58,4 +58,16 @@ nav {
 
 .green {
     color: green;
+}
+
+.card {
+    border: none;
+}
+
+#weatherStats {
+    padding: 20px;
+}
+
+.week-forecast {
+    justify-content: space-between;
 }

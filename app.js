@@ -57,7 +57,7 @@ $(document).ready(function () {
                 console.log("run");
                 $previousLocations.html("");
                 for (let i=0; i < pastSearch.length; i++) {
-                    $previousLocations.prepend(`<p class="past">${pastSearch[i]}</p>`);
+                    $previousLocations.prepend(`<p class="past"><b>${pastSearch[i]}</b></p>`);
                 }
                 pastSearch.push(searchCity);
             } else if (pastSearch.length > 4) {
@@ -65,7 +65,7 @@ $(document).ready(function () {
                 pastSearch.push(searchCity);
                 $previousLocations.html("");
                 for (let i=0; i < pastSearch.length; i++) {
-                    $previousLocations.prepend(`<p class="past">${pastSearch[i]}</p>`);
+                    $previousLocations.prepend(`<p class="past"><b>${pastSearch[i]}</b></p>`);
                 }
             } else {
                 $previousLocations.html("");
@@ -204,20 +204,20 @@ $(document).ready(function () {
 
     //render current weather
     function renderWeather() {
-        $currentDate.html(`<p>${moment().format("dddd, MMMM Do")}</p><p>${moment().format("h:m A")}</p>`);
+        $currentDate.html(`<p>${moment().format("dddd, MMMM Do")} <br> <b>${moment().format("h:mm A")}</b></p>`);
         $currentTemp.html(`<h1>${dayTemp}\u00B0F</h1><p>${description}</p>`);
         $weatherIcon.html(`<img src="http://openweathermap.org/img/wn/${currentIcon}@2x.png" alt="weather icon">`);
 
         var uvConditions;
         if (uv > 5) {
-            uvConditions = `<p>UV Index: <span class="red">&nbsp${uv}&nbsp</span></p>`;
+            uvConditions = `<p>UV Index &nbsp|&nbsp  <span class="red">&nbsp<b>${uv}</b>&nbsp</span></p>`;
         } else if (uv <=5 && uv >=3) {
-            uvConditions = `<p>UV Index: <span class="yellow">&nbsp${uv}&nbsp</span></p>`;
+            uvConditions = `<p>UV Index &nbsp|&nbsp <span class="yellow">&nbsp<b>${uv}</b>&nbsp</span></p>`;
         } else {
-            uvConditions = `<p>UV Index: <span class="green">&nbsp${uv}&nbsp</span></p>`;
+            uvConditions = `<p>UV Index &nbsp|&nbsp  <span class="green">&nbsp<b>${uv}</b>&nbsp</span></p>`;
         };
 
-        $weatherStats.html(`<p>Humidity: ${humidity}%</p><p>Wind Speed: ${windSpeed} mph</p>${uvConditions}`);
+        $weatherStats.html(`<p>Humidity &nbsp|&nbsp  <b>${humidity}</b>%</p><p>Wind Speed &nbsp|&nbsp  <b>${windSpeed}</b> mph</p>${uvConditions}`);
 
         $fiveDayForecast.html("");
 
