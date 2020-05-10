@@ -122,14 +122,14 @@ $(document).ready(function () {
             type: "GET",
             url: `https://api.climacell.co/v3/weather/forecast/hourly?lat=${lat}&lon=${lon}&unit_system=si&start_time=now&fields=temp&apikey=${apiKeyClima}`,
         }).then(function (res) {
-            console.log(res);
-            console.log(moment(res[0].observation_time.value).format("hh A"));
+            
+            hourly = [];
+            hourlyTemp = [];
+
             for (let i = 0; i < 24; i = i + 2) {
                 hourly.push(moment(res[i].observation_time.value).format("hh A"));
                 hourlyTemp.push(Math.floor(convertToF(res[i].temp.value)));
             }
-            hourly = [];
-            hourlyTemp = [];
 
             var ctx = $("#hourlyChart");
 
