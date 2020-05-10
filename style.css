@@ -79,6 +79,6 @@ nav {
     justify-content: space-between;
 }
 
-.hourly {
+.hourly, #hourlyChart {
     max-height: 55vh;
 }
