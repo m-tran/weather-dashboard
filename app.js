@@ -18,8 +18,10 @@ $(document).ready(function () {
 
     if (JSON.parse(localStorage.getItem("previous")) === null) {
         defaultCity = "San Francisco";
+        
     } else {
         defaultCity = JSON.parse(localStorage.getItem("previous"))[JSON.parse(localStorage.getItem("previous")).length - 1];
+        $previousLocations.prepend(`<p class="past"><b>${JSON.parse(localStorage.getItem("previous"))}</b></p>`);
     }
     
 
@@ -48,7 +50,7 @@ $(document).ready(function () {
     var pastSearch = [];
 
     getCurrentWeather(defaultCity);
-    $currentCity.html(`<h2>${defaultCity}</h2>`)
+    $currentCity.html(`<h2>${defaultCity}</h2>`);
 
     //get current location
     $("input").on("keydown", function search(e) {
@@ -99,13 +101,14 @@ $(document).ready(function () {
             data: 'json',
         }).then(function (res) {
             
-            dayTemp = res.main.feels_like;
+            dayTemp = res.main.temp;
             currentIcon = res.weather[0].icon;
             description = res.weather[0].description;
             windSpeed = res.wind.speed;
             humidity = res.main.humidity;
             lat = res.coord.lat;
             lon = res.coord.lon;
+            console.log(res);
             getUV(city);
             currentTemp(dayTemp);
             getHourly(city);
@@ -244,7 +247,7 @@ $(document).ready(function () {
 
     //convert to F
     function convertFahrenheit(temp) {
-        temp = ((temp - 273.15) * 1.8) + 32;
+        temp = (temp * (9/5)) - 459.67;
         return temp;
     }
 
@@ -256,7 +259,7 @@ $(document).ready(function () {
 
     // convert C to F
     function convertToF(temp) {
-        temp = temp * 9/5 + 32
+        temp = temp * (9/5) + 32;
         return temp;
     }
 
