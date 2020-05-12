@@ -21,6 +21,7 @@ $(document).ready(function () {
         
     } else {
         defaultCity = JSON.parse(localStorage.getItem("previous"))[JSON.parse(localStorage.getItem("previous")).length - 1];
+        $previousLocations.html("");
         for (let i=0; i < JSON.parse(localStorage.getItem("previous")).length; i++) {
             $previousLocations.prepend(`<p class="past"><b>${JSON.parse(localStorage.getItem("previous"))[i]}</b></p>`);
         }
