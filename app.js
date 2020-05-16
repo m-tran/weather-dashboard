@@ -21,7 +21,7 @@ $(document).ready(function () {
         
     } else {
         defaultCity = JSON.parse(localStorage.getItem("previous"))[JSON.parse(localStorage.getItem("previous")).length - 1];
-        $previousLocations.html("");
+        // $previousLocations.html("");
         for (let i=0; i < JSON.parse(localStorage.getItem("previous")).length; i++) {
             $previousLocations.prepend(`<p class="past"><b>${JSON.parse(localStorage.getItem("previous"))[i]}</b></p>`);
         }
@@ -79,7 +79,7 @@ $(document).ready(function () {
                     $previousLocations.prepend(`<p class="past"><b>${pastSearch[i]}</b></p>`);
                 }
             } else {
-                $previousLocations.html("");
+                $previousLocations.prepend(`<p class="past"><b>${defaultCity}</b></p>`);
                 pastSearch.push(searchCity);
                 localStorage.setItem("previous", JSON.stringify(pastSearch));
             };
